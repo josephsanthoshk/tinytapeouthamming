@@ -21,7 +21,9 @@ D4 = ui[3]
 The encoder generates three parity bits:
 
 P1 = D1 ⊕ D2 ⊕ D4
+
 P2 = D1 ⊕ D3 ⊕ D4
+
 P4 = D2 ⊕ D3 ⊕ D4
 
 The final codeword structure is:
@@ -37,7 +39,9 @@ When `MODE = 1`, the chip interprets `ui[6:0]` as a received Hamming codeword.
 The circuit computes a **syndrome** using parity checks:
 
 S1 = C1 ⊕ C3 ⊕ C5 ⊕ C7
+
 S2 = C2 ⊕ C3 ⊕ C6 ⊕ C7
+
 S4 = C4 ⊕ C5 ⊕ C6 ⊕ C7
 
 The syndrome `{S4,S2,S1}` indicates the position of a single-bit error.
