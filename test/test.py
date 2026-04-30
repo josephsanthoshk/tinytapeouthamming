@@ -23,40 +23,39 @@ async def test_project(dut):
     dut.rst_n.value = 1
 
 
-    # ------------------------
+    # -------------------------
     # ENCODE TEST
-    # ------------------------
+    # -------------------------
 
     dut._log.info("Encode test")
 
     data = 0b1011
+    mode = 0
 
-    dut.ui_in.value = data        # ui[3:0]
-    dut.ui_in.value |= 0 << 7     # MODE = 0
+    dut.ui_in.value = (mode << 7) | data
 
     await ClockCycles(dut.clk, 1)
 
-    encoded = dut.uo_out.value & 0x7F
-    dut._log.info(f"Encoded word: {encoded}")
+    encoded = int(dut.uo_out.value) & 0x7F
+    dut._log.info(f"Encoded codeword = {encoded:07b}")
 
 
-
-    # ------------------------
-    # DECODE TEST (with error)
-    # ------------------------
+    # -------------------------
+    # DECODE TEST
+    # -------------------------
 
     dut._log.info("Decode test")
 
     error_code = encoded ^ (1 << 2)  # flip bit 3
 
-    dut.ui_in.value = error_code
-    dut.ui_in.value |= 1 << 7        # MODE = 1
+    mode = 1
+    dut.ui_in.value = (mode << 7) | error_code
 
     await ClockCycles(dut.clk, 1)
 
-    corrected = dut.uo_out.value & 0x7F
-    error_flag = (dut.uo_out.value >> 7) & 1
+    corrected = int(dut.uo_out.value) & 0x7F
+    error_flag = (int(dut.uo_out.value) >> 7) & 1
 
-    dut._log.info(f"Corrected code: {corrected}")
+    dut._log.info(f"Corrected codeword = {corrected:07b}")
 
     assert error_flag == 1
