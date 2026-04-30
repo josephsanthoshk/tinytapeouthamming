@@ -1,7 +1,7 @@
 # Tiny Tapeout project information
 project:
   title:        "Hamming(7,4) Encoder/Decoder"
-  author:       "Joseph Santhosh"
+  author:       "Joseph Santhosh K,Noel Jose, Tinu P Mathew, Abhinav Kuruvila, Sahil K"
   discord:      ""
   description:  "Single-bit error correcting Hamming(7,4) encoder and decoder."
   language:     "Verilog"
